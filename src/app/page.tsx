@@ -52,7 +52,7 @@ export default function Home() {
           <td className="p-2 border-r border-main hidden lg:table-cell">
             {formatNumber(element.currentDead - element.preKvkDead)}
           </td>
-          <td className="p-2 lg:border-r lg:border-main">
+          <td className="p-2 border-r border-main hidden lg:table-cell">
             {formatNumber(element.kpi)}
           </td>
           <td className="p-2 lg:border-r lg:border-main">
