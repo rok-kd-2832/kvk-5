@@ -1,5 +1,5 @@
 "use client";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import getData from "@/functional/getData";
 import { UserData } from "@/types/UserData";
 import DataModal from "@/components/modal/DataModal";
@@ -9,8 +9,12 @@ export default function Home() {
   const [searchKey, setSearchKey] = useState("");
   const [isShowModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState<UserData | null>(null);
-  const dataList = getData();
+  const [dataList, setDataList] = useState<UserData[]>([]);
 
+  useEffect(() => {
+    const dataList = getData();
+    setDataList(dataList);
+  }, []);
   function onRenderUserList() {
     const list: ReactElement[] = [];
     for (let i = 0; i < dataList.length; i++) {
