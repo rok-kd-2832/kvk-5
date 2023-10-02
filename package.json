@@ -2,7 +2,7 @@
   "name": "rok-data",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://rok-kd-2832.github.io/kvk-5/",
+  "homepage": "https://rok-kd-2832.github.io/kvk-5",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

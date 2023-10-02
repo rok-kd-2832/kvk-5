@@ -17,6 +17,8 @@ type DataType = {
   current_t4_kill_points: number | null;
   pre_kvk_t123_kill_points: number;
   current_t123_kill_points: number | null;
+  dead_t4: number | null;
+  dead_t5: number | null;
   is_zeroed: boolean;
   is_migrated: boolean;
 };
@@ -52,17 +54,21 @@ export default function getData() {
     if (!data.current_t5_kill_points || !data.current_t4_kill_points) {
       return 0;
     }
-    const killT5 = data.current_t5_kill_points - data.pre_kvk_t5_kill_points;
-    const killT4 = data.current_t4_kill_points - data.pre_kvk_t4_kill_points;
-    return killT4 * KPI_PER_T4_KILL + killT5 * KPI_PER_T5_KILL;
+    const totalPointFromKillT5 =
+      data.current_t5_kill_points - data.pre_kvk_t5_kill_points;
+    const totalPointFromKillT4 =
+      data.current_t4_kill_points - data.pre_kvk_t4_kill_points;
+    return (
+      (totalPointFromKillT4 / 10) * KPI_PER_T4_KILL +
+      (totalPointFromKillT5 / 20) * KPI_PER_T5_KILL
+    );
   }
 
   function getDeadPointsKPI(data: DataType) {
-    if (!data.current_dead_points || data.is_zeroed) {
+    if (!data.dead_t4 || !data.dead_t5 || data.is_zeroed) {
       return 0;
     }
-    const deadPointsDiff = data.current_dead_points - data.pre_kvk_dead_points;
-    return deadPointsDiff * KPI_PER_T5_DEAD;
+    return data.dead_t4 * KPI_PER_T4_DEAD + data.dead_t5 * KPI_PER_T5_DEAD;
   }
 
   function getNewUserData(data: DataType) {
@@ -82,8 +88,8 @@ export default function getData() {
       currentT4KillPoints: data.current_t4_kill_points,
       preKvkT5KillPoints: data.pre_kvk_t5_kill_points,
       currentT5KillPoints: data.current_t5_kill_points,
-      totalT5Dead: 0,
-      totalT4Dead: 0,
+      totalT5Dead: data.dead_t5,
+      totalT4Dead: data.dead_t4,
       isMigrated: data.is_migrated,
       isZeroed: data.is_zeroed,
       kpi: currentKpi,

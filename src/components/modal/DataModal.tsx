@@ -72,13 +72,24 @@ function DataModal(props: PropsType) {
             </tr>
             <tr>
               <td className="p-2 bg-main text-white max-w-[100px] border-b border-b-white">
-                Dead Points
+                T4 Dead
               </td>
-              <td className="p-2 max-w-[100px] border-r border-b border-main">
-                {formatNumber(props.data.preKvkDead)}
+              <td
+                className=" text-center p-2 max-w-[100px] border-r border-b border-main"
+                colSpan={2}
+              >
+                {formatNumber(props.data.totalT4Dead)}
               </td>
-              <td className="p-2 max-w-[100px] border-r border-b border-main">
-                <p>{formatNumber(props.data.currentDead)}</p>
+            </tr>
+            <tr>
+              <td className="p-2 bg-main text-white max-w-[100px] border-b border-b-white">
+                T5 Dead
+              </td>
+              <td
+                className=" text-center p-2 max-w-[100px] border-r border-b border-main"
+                colSpan={2}
+              >
+                {formatNumber(props.data.totalT5Dead)}
               </td>
             </tr>
             <tr>
