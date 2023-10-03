@@ -46,13 +46,26 @@ export default function Home() {
             </p>
           </td>
           <td className="p-2 border-r border-main hidden lg:table-cell">
-            {formatNumber(element.currentPower - element.preKvkPower)}
+            {element.currentPower === "-"
+              ? "-"
+              : formatNumber(
+                  (element.currentPower as number) - element.preKvkPower
+                )}
           </td>
           <td className="p-2 border-r border-main hidden lg:table-cell">
-            {formatNumber(element.currentKillPoints - element.preKvkKillPoints)}
+            {element.currentKillPoints === "-"
+              ? "-"
+              : formatNumber(
+                  (element.currentKillPoints as number) -
+                    element.preKvkKillPoints
+                )}
           </td>
           <td className="p-2 border-r border-main hidden lg:table-cell">
-            {formatNumber(element.currentDead - element.preKvkDead)}
+            {element.currentDead === "-"
+              ? "-"
+              : formatNumber(
+                  (element.currentDead as number) - element.preKvkDead
+                )}
           </td>
           <td className="p-2 border-r border-main hidden lg:table-cell">
             {formatNumber(element.kpi)}

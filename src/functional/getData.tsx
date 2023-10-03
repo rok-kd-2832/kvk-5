@@ -6,19 +6,19 @@ type DataType = {
   pre_kvk_name: string;
   current_name: string;
   pre_kvk_power: number;
-  current_power: number | "-";
+  current_power: number | string;
   pre_kvk_dead_points: number;
-  current_dead_points: number | "-";
+  current_dead_points: number | string;
   pre_kvk_kill_points: number;
-  current_kill_points: number | "-";
+  current_kill_points: number | string;
   pre_kvk_t5_kill_points: number;
-  current_t5_kill_points: number | "-";
+  current_t5_kill_points: number | string;
   pre_kvk_t4_kill_points: number;
-  current_t4_kill_points: number | "-";
+  current_t4_kill_points: number | string;
   pre_kvk_t123_kill_points: number;
-  current_t123_kill_points: number | "-";
-  dead_t4: number | "-";
-  dead_t5: number | "-";
+  current_t123_kill_points: number | string;
+  dead_t4: number | string;
+  dead_t5: number | string;
   is_zeroed: boolean;
   is_migrated: boolean;
 };
@@ -95,9 +95,9 @@ export default function getData() {
       return 0;
     }
     const totalPointFromKillT5 =
-      data.current_t5_kill_points - data.pre_kvk_t5_kill_points;
+      (data.current_t5_kill_points as number) - data.pre_kvk_t5_kill_points;
     const totalPointFromKillT4 =
-      data.current_t4_kill_points - data.pre_kvk_t4_kill_points;
+      (data.current_t4_kill_points as number) - data.pre_kvk_t4_kill_points;
     return (
       (totalPointFromKillT4 / 10) * KPI_PER_T4_KILL +
       (totalPointFromKillT5 / 20) * KPI_PER_T5_KILL
@@ -108,7 +108,9 @@ export default function getData() {
     if (data.dead_t4 === "-" || data.dead_t5 === "-" || data.is_zeroed) {
       return 0;
     }
-    return data.dead_t4 * KPI_PER_T4_DEAD + data.dead_t5 * KPI_PER_T5_DEAD;
+    const kpiKillt4 = (data.dead_t4 as number) * KPI_PER_T4_DEAD;
+    const kpiKillT5 = (data.dead_t5 as number) * KPI_PER_T5_DEAD;
+    return kpiKillt4 + kpiKillT5;
   }
 
   function getNewUserData(data: DataType) {

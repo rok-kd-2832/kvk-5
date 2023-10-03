@@ -56,7 +56,11 @@ function DataModal(props: PropsType) {
                 {formatNumber(props.data.preKvkPower)}
               </td>
               <td className="p-2 max-w-[100px] border-r border-b border-main">
-                <p>{formatNumber(props.data.currentPower)}</p>
+                <p>
+                  {props.data.currentPower === "-"
+                    ? "-"
+                    : formatNumber(props.data.currentPower as number)}
+                </p>
               </td>
             </tr>
             <tr>
@@ -67,7 +71,11 @@ function DataModal(props: PropsType) {
                 {formatNumber(props.data.preKvkKillPoints)}
               </td>
               <td className="p-2 max-w-[100px] border-r border-b border-main">
-                <p>{formatNumber(props.data.currentKillPoints)}</p>
+                <p>
+                  {props.data.currentKillPoints === "-"
+                    ? "-"
+                    : formatNumber(props.data.currentKillPoints as number)}
+                </p>
               </td>
             </tr>
             <tr>
@@ -78,7 +86,9 @@ function DataModal(props: PropsType) {
                 className=" text-center p-2 max-w-[100px] border-r border-b border-main"
                 colSpan={2}
               >
-                {formatNumber(props.data.totalT4Dead)}
+                {props.data.totalT4Dead === "-"
+                  ? "-"
+                  : formatNumber(props.data.totalT4Dead as number)}
               </td>
             </tr>
             <tr>
@@ -89,7 +99,9 @@ function DataModal(props: PropsType) {
                 className=" text-center p-2 max-w-[100px] border-r border-b border-main"
                 colSpan={2}
               >
-                {formatNumber(props.data.totalT5Dead)}
+                {props.data.totalT5Dead === "-"
+                  ? "-"
+                  : formatNumber(props.data.totalT5Dead as number)}
               </td>
             </tr>
             <tr>
@@ -100,7 +112,11 @@ function DataModal(props: PropsType) {
                 {formatNumber(props.data.preKvkT4KillPoints)}
               </td>
               <td className="p-2 max-w-[100px] border-r border-b border-main">
-                <p>{formatNumber(props.data.currentT4KillPoints)}</p>
+                <p>
+                  {props.data.currentT4KillPoints === "-"
+                    ? "-"
+                    : formatNumber(props.data.currentT4KillPoints as number)}
+                </p>
               </td>
             </tr>
             <tr>
@@ -111,7 +127,11 @@ function DataModal(props: PropsType) {
                 {formatNumber(props.data.preKvkT5KillPoints)}
               </td>
               <td className="p-2 max-w-[100px] border-r border-b border-main">
-                <p>{formatNumber(props.data.currentT5KillPoints)}</p>
+                <p>
+                  {props.data.currentT5KillPoints === "-"
+                    ? "-"
+                    : formatNumber(props.data.currentT5KillPoints as number)}
+                </p>
               </td>
             </tr>
             <tr>
