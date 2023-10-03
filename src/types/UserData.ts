@@ -1,6 +1,7 @@
 export type UserData = {
   rank: number,
   id: number,
+  key: string,
   name: string,
   preKvkPower: number,
   currentPower: number,

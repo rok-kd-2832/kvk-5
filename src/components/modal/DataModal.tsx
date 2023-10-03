@@ -154,21 +154,21 @@ function DataModal(props: PropsType) {
               >
                 <p className="flex flex-wrap">
                   {props.data.kpi >= props.data.require_kpi ? (
-                    <span className="text-xs py-1 px-2 bg-main text-white font-bold rounded">
+                    <span className="text-xs py-1 px-2 bg-[#10B981] text-white font-bold rounded mr-2">
                       Đã đạt KPI
                     </span>
                   ) : (
-                    <span className="text-xs py-1 px-2 bg-main text-white font-bold rounded">
+                    <span className="text-xs py-1 px-2 bg-main text-white font-bold rounded mr-2">
                       Chưa đạt KPI
                     </span>
                   )}
                   {props.data.isZeroed && (
-                    <span className="text-xs py-1 px-2 bg-[#EF4444] text-white font-bold rounded">
+                    <span className="text-xs py-1 px-2 bg-[#EF4444] text-white font-bold rounded mr-2">
                       Đã bị zero
                     </span>
                   )}
                   {props.data.isMigrated && (
-                    <span className="text-xs py-1 px-2 bg-[#3B82F6] text-white font-bold rounded">
+                    <span className="text-xs py-1 px-2 bg-[#3B82F6] text-white font-bold rounded mr-2">
                       Đã di cư
                     </span>
                   )}

@@ -20,9 +20,7 @@ export default function Home() {
     for (let i = 0; i < dataList.length; i++) {
       const element = dataList[i] as unknown as UserData;
       const isShow =
-        searchKey === ""
-          ? true
-          : element.id.toString().indexOf(searchKey) != -1;
+        searchKey === "" ? true : element.key.indexOf(searchKey) != -1;
       list.push(
         <tr
           key={i}
