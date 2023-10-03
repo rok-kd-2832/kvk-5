@@ -6,19 +6,19 @@ type DataType = {
   pre_kvk_name: string;
   current_name: string;
   pre_kvk_power: number;
-  current_power: number | null;
+  current_power: number | "-";
   pre_kvk_dead_points: number;
-  current_dead_points: number | null;
+  current_dead_points: number | "-";
   pre_kvk_kill_points: number;
-  current_kill_points: number | null;
+  current_kill_points: number | "-";
   pre_kvk_t5_kill_points: number;
-  current_t5_kill_points: number | null;
+  current_t5_kill_points: number | "-";
   pre_kvk_t4_kill_points: number;
-  current_t4_kill_points: number | null;
+  current_t4_kill_points: number | "-";
   pre_kvk_t123_kill_points: number;
-  current_t123_kill_points: number | null;
-  dead_t4: number | null;
-  dead_t5: number | null;
+  current_t123_kill_points: number | "-";
+  dead_t4: number | "-";
+  dead_t5: number | "-";
   is_zeroed: boolean;
   is_migrated: boolean;
 };
@@ -88,7 +88,10 @@ export default function getData() {
   }
 
   function getKillPointsKPI(data: DataType) {
-    if (!data.current_t5_kill_points || !data.current_t4_kill_points) {
+    if (
+      data.current_t5_kill_points === "-" ||
+      data.current_t4_kill_points === "-"
+    ) {
       return 0;
     }
     const totalPointFromKillT5 =
@@ -102,7 +105,7 @@ export default function getData() {
   }
 
   function getDeadPointsKPI(data: DataType) {
-    if (!data.dead_t4 || !data.dead_t5 || data.is_zeroed) {
+    if (data.dead_t4 === "-" || data.dead_t5 === "-" || data.is_zeroed) {
       return 0;
     }
     return data.dead_t4 * KPI_PER_T4_DEAD + data.dead_t5 * KPI_PER_T5_DEAD;
