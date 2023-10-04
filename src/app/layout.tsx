@@ -1,9 +1,7 @@
+import Sidebar from "@/components/Sidebar";
 import "./globals.css";
+import "./common.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Script from "next/script";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "KINGDOM 2832 - KVK 5",
@@ -17,10 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <Script src="https://cdn.tailwindcss.com" />
-      </head>
-      <body className={inter.className}>{children}</body>
+      <body>
+        <div>
+          {children}
+          <Sidebar />
+        </div>
+      </body>
     </html>
   );
 }

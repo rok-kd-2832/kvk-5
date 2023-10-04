@@ -1,171 +1,199 @@
 "use client";
-import { ReactElement, useEffect, useState } from "react";
-import getData from "@/functional/getData";
-import { UserData } from "@/types/UserData";
-import DataModal from "@/components/modal/DataModal";
-import formatNumber from "@/functional/formatNumber";
+
+import { useState } from "react";
+import CollapseBody from "@/components/anim/CollapseBody";
+import InputField from "@/components/calculator/InputField";
 
 export default function Home() {
-  const [searchKey, setSearchKey] = useState("");
-  const [isShowModal, setShowModal] = useState(false);
-  const [modalData, setModalData] = useState<UserData | null>(null);
-  const [dataList, setDataList] = useState<UserData[]>([]);
+  const [isShowResources, setShowResources] = useState(true);
+  const [isShowSpeedups, setShowSpeedups] = useState(false);
 
-  useEffect(() => {
-    const dataList = getData();
-    setDataList(dataList);
-  }, []);
-  function onRenderUserList() {
-    const list: ReactElement[] = [];
-    for (let i = 0; i < dataList.length; i++) {
-      const element = dataList[i] as unknown as UserData;
-      const isShow =
-        searchKey === "" ? true : element.key.indexOf(searchKey) != -1;
-      list.push(
-        <tr
-          key={i}
-          className={`text-sm border-b border-main ${!isShow && "hidden"}`}
-          onClick={() => {
-            onOpenModal(element);
-          }}
-        >
-          <td className="p-2 w-[40px] border-r border-main font-bold text-center">
-            {element.rank}
-          </td>
-          <td className="p-2 border-r border-main max-w-[125px]">
-            {element.id}
-          </td>
-          <td className="p-2 border-r border-main max-w-[125px] overflow-hidden whitespace-nowrap">
-            <p>{element.name}</p>
-            <p className="lg:hidden">
-              {element.isMigrated && (
-                <span className="rounded bg-[#3B82F6] text-white text-xs p-1">
-                  Đã di cư
-                </span>
-              )}
-            </p>
-          </td>
-          <td className="p-2 border-r border-main hidden lg:table-cell">
-            {element.currentPower === "-"
-              ? "-"
-              : formatNumber(
-                  (element.currentPower as number) - element.preKvkPower
-                )}
-          </td>
-          <td className="p-2 border-r border-main hidden lg:table-cell">
-            {element.currentKillPoints === "-"
-              ? "-"
-              : formatNumber(
-                  (element.currentKillPoints as number) -
-                    element.preKvkKillPoints
-                )}
-          </td>
-          <td className="p-2 border-r border-main hidden lg:table-cell">
-            {element.currentDead === "-"
-              ? "-"
-              : formatNumber(
-                  (element.currentDead as number) - element.preKvkDead
-                )}
-          </td>
-          <td className="p-2 border-r border-main hidden lg:table-cell">
-            {formatNumber(element.kpi)}
-          </td>
-          <td className="p-2 lg:border-r lg:border-main">
-            {getKPIRatio(element.kpi, element.require_kpi)}%
-          </td>
-          <td className="p-2 hidden lg:table-cell">
-            <p className="flex flex-wrap">
-              {element.kpi >= element.require_kpi ? (
-                <span className="rounded text-white bg-[#10B981] py-1 px-3 mr-2">
-                  Đã Đạt KPI
-                </span>
-              ) : (
-                <span className="rounded text-white bg-main py-1 px-3 mr-2">
-                  Chưa Đạt KPI
-                </span>
-              )}
-              {element.isMigrated && (
-                <span className="rounded text-white bg-[#3B82F6] py-1 px-3 mr-2">
-                  Đã di cư
-                </span>
-              )}
-              {element.isZeroed && (
-                <span className="rounded text-white bg-[#EF4444] py-1 px-3 mr-2">
-                  Đã bị Zero
-                </span>
-              )}
-            </p>
-          </td>
-        </tr>
-      );
-    }
-    return list;
+  function onShowResourcesChanged() {
+    setShowResources(!isShowResources);
   }
 
-  function onOpenModal(data: UserData) {
-    setModalData(data);
-    onSetShowModal(true);
+  function onShowSpeedupsChanged() {
+    setShowSpeedups(!isShowSpeedups);
   }
 
-  function onSetShowModal(isShow: boolean) {
-    setShowModal(isShow);
-  }
-
-  function getKPIRatio(number1: number, number2: number) {
-    return Math.floor((100 * number1) / number2);
+  function onFieldChanged(event: React.ChangeEvent<HTMLInputElement>) {
+    console.log(event.target.value);
   }
 
   return (
-    <div>
-      <header className="bg-main">
-        <h1 className="text-center font-bold text-white text-xl py-2">
-          2832 KVK DATA
-        </h1>
-      </header>
-      <div className="px-5">
-        <div className="rounded-md border border-main overflow-hidden mt-5 w-full max-w-[400px]">
-          <input
-            type="text"
-            value={searchKey}
-            onChange={(e) => setSearchKey(e.target.value)}
-            className="h-[32px] text border-0 w-full outline-0 px-2"
-            placeholder="Nhập Tên hoặc ID để tìm"
-          />
+    <div className="pt-5 pb-20">
+      <h2
+        className="text-sm px-3 border-y bg-gray-100 py-2 font-bold"
+        onClick={onShowResourcesChanged}
+      >
+        RESOURCES
+      </h2>
+      <CollapseBody isShow={isShowResources}>
+        <div className="pb-10">
+          <div className="p-3">
+            <h3 className="text-xs font-bold">CORN</h3>
+            <div className="flex flex-wrap justify-between">
+              <InputField label="1K" onFieldChanged={onFieldChanged} />
+              <InputField label="10K" onFieldChanged={onFieldChanged} />
+              <InputField label="50K" onFieldChanged={onFieldChanged} />
+              <InputField label="150K" onFieldChanged={onFieldChanged} />
+              <InputField label="500K" onFieldChanged={onFieldChanged} />
+              <InputField label="1M5" onFieldChanged={onFieldChanged} />
+              <InputField label="5M" onFieldChanged={onFieldChanged} />
+            </div>
+            <h3 className="text-xs font-bold mt-5">WOOD</h3>
+            <div className="flex flex-wrap justify-between">
+              <InputField label="1K" onFieldChanged={onFieldChanged} />
+              <InputField label="10K" onFieldChanged={onFieldChanged} />
+              <InputField label="50K" onFieldChanged={onFieldChanged} />
+              <InputField label="150K" onFieldChanged={onFieldChanged} />
+              <InputField label="500K" onFieldChanged={onFieldChanged} />
+              <InputField label="1M5" onFieldChanged={onFieldChanged} />
+              <InputField label="5M" onFieldChanged={onFieldChanged} />
+            </div>
+            <h3 className="text-xs font-bold mt-5">STONE</h3>
+            <div className="flex flex-wrap justify-between">
+              <InputField label="1K" onFieldChanged={onFieldChanged} />
+              <InputField label="10K" onFieldChanged={onFieldChanged} />
+              <InputField label="50K" onFieldChanged={onFieldChanged} />
+              <InputField label="150K" onFieldChanged={onFieldChanged} />
+              <InputField label="500K" onFieldChanged={onFieldChanged} />
+              <InputField label="1M5" onFieldChanged={onFieldChanged} />
+              <InputField label="5M" onFieldChanged={onFieldChanged} />
+            </div>
+            <h3 className="text-xs font-bold mt-5">GOLD</h3>
+            <div className="flex flex-wrap justify-between">
+              <InputField label="1K" onFieldChanged={onFieldChanged} />
+              <InputField label="10K" onFieldChanged={onFieldChanged} />
+              <InputField label="50K" onFieldChanged={onFieldChanged} />
+              <InputField label="150K" onFieldChanged={onFieldChanged} />
+              <InputField label="500K" onFieldChanged={onFieldChanged} />
+              <InputField label="1M5" onFieldChanged={onFieldChanged} />
+              <InputField label="5M" onFieldChanged={onFieldChanged} />
+            </div>
+          </div>
+          <div className="px-3">
+            <div className="mt-5 border border-main px-3 rounded text-sm font-bold">
+              <div className="flex py-2 border-b border-dot">
+                <p className="w-16">CORN</p>
+                <p>: 1B2</p>
+              </div>
+              <div className="flex py-2 border-b border-dot">
+                <p className="w-16">WOOD</p>
+                <p>: 1B2</p>
+              </div>
+              <div className="flex py-2 border-b border-dot">
+                <p className="w-16">STONE</p>
+                <p>: 1B2</p>
+              </div>
+              <div className="flex py-2">
+                <p className="w-16">GOLD</p>
+                <p>: 1B2</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="mt-5">
-          <table className="w-full font-normal border border-main">
-            <thead className="bg-main font-bold">
-              <tr>
-                <td className="p-2 text-white w-[40px] border-r">TOP</td>
-                <td className="p-2 text-white border-r">ID</td>
-                <td className="p-2 text-white border-r">Tên</td>
-                <td className="p-2 text-white border-r hidden lg:table-cell">
-                  Pow Diff
-                </td>
-                <td className="p-2 text-white border-r hidden lg:table-cell">
-                  Kill Diff
-                </td>
-                <td className="p-2 text-white border-r hidden lg:table-cell">
-                  Dead Diff
-                </td>
-                <td className="p-2 text-white border-r hidden lg:table-cell">
-                  Điểm KPI
-                </td>
-                <td className="p-2 text-white lg:border-r">KPI</td>
-                <td className="p-2 text-white hidden lg:table-cell">
-                  Trạng Thái
-                </td>
-              </tr>
-            </thead>
-            <tbody>{onRenderUserList()}</tbody>
-          </table>
+      </CollapseBody>
+      <h2
+        className="text-sm px-3 border-y bg-gray-100 py-2 font-bold"
+        onClick={onShowSpeedupsChanged}
+      >
+        SPEED UPS
+      </h2>
+      <CollapseBody isShow={isShowSpeedups}>
+        <div className="p-3">
+          <h3 className="text-xs font-bold">BUILDING</h3>
+          <div className="flex flex-wrap justify-between">
+            <InputField label="1 min" onFieldChanged={onFieldChanged} />
+            <InputField label="5 min" onFieldChanged={onFieldChanged} />
+            <InputField label="10 min" onFieldChanged={onFieldChanged} />
+            <InputField label="15 min" onFieldChanged={onFieldChanged} />
+            <InputField label="30 min" onFieldChanged={onFieldChanged} />
+            <InputField label="60 min" onFieldChanged={onFieldChanged} />
+            <InputField label="3 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="8 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="15 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="24 hours" onFieldChanged={onFieldChanged} />
+          </div>
+          <h3 className="text-xs font-bold mt-5">RESEARCH</h3>
+          <div className="flex flex-wrap justify-between">
+            <InputField label="1 min" onFieldChanged={onFieldChanged} />
+            <InputField label="5 min" onFieldChanged={onFieldChanged} />
+            <InputField label="10 min" onFieldChanged={onFieldChanged} />
+            <InputField label="15 min" onFieldChanged={onFieldChanged} />
+            <InputField label="30 min" onFieldChanged={onFieldChanged} />
+            <InputField label="60 min" onFieldChanged={onFieldChanged} />
+            <InputField label="3 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="8 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="15 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="24 hours" onFieldChanged={onFieldChanged} />
+          </div>
+          <h3 className="text-xs font-bold mt-5">TRAINING</h3>
+          <div className="flex flex-wrap justify-between">
+            <InputField label="1 min" onFieldChanged={onFieldChanged} />
+            <InputField label="5 min" onFieldChanged={onFieldChanged} />
+            <InputField label="10 min" onFieldChanged={onFieldChanged} />
+            <InputField label="15 min" onFieldChanged={onFieldChanged} />
+            <InputField label="30 min" onFieldChanged={onFieldChanged} />
+            <InputField label="60 min" onFieldChanged={onFieldChanged} />
+            <InputField label="3 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="8 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="15 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="24 hours" onFieldChanged={onFieldChanged} />
+          </div>
+          <h3 className="text-xs font-bold mt-5">HEALING</h3>
+          <div className="flex flex-wrap justify-between">
+            <InputField label="1 min" onFieldChanged={onFieldChanged} />
+            <InputField label="5 min" onFieldChanged={onFieldChanged} />
+            <InputField label="10 min" onFieldChanged={onFieldChanged} />
+            <InputField label="15 min" onFieldChanged={onFieldChanged} />
+            <InputField label="30 min" onFieldChanged={onFieldChanged} />
+            <InputField label="60 min" onFieldChanged={onFieldChanged} />
+            <InputField label="3 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="8 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="15 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="24 hours" onFieldChanged={onFieldChanged} />
+          </div>
+          <h3 className="text-xs font-bold mt-5">GENERAL</h3>
+          <div className="flex flex-wrap justify-between">
+            <InputField label="1 min" onFieldChanged={onFieldChanged} />
+            <InputField label="5 min" onFieldChanged={onFieldChanged} />
+            <InputField label="10 min" onFieldChanged={onFieldChanged} />
+            <InputField label="15 min" onFieldChanged={onFieldChanged} />
+            <InputField label="30 min" onFieldChanged={onFieldChanged} />
+            <InputField label="60 min" onFieldChanged={onFieldChanged} />
+            <InputField label="3 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="8 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="15 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="24 hours" onFieldChanged={onFieldChanged} />
+            <InputField label="3 days" onFieldChanged={onFieldChanged} />
+            <InputField label="7 days" onFieldChanged={onFieldChanged} />
+          </div>
+
+          <div className="mt-5 border border-main px-3 rounded text-sm font-bold">
+            <div className="flex py-2 border-b border-dot">
+              <p className="w-20">BUILDING</p>
+              <p>: 2500 days</p>
+            </div>
+            <div className="flex py-2 border-b border-dot">
+              <p className="w-20">RESEARCH</p>
+              <p>: 2500 days</p>
+            </div>
+            <div className="flex py-2 border-b border-dot">
+              <p className="w-20">TRAINING</p>
+              <p>: 2500 days</p>
+            </div>
+            <div className="flex py-2 border-b border-dot">
+              <p className="w-20">HEALING</p>
+              <p>: 2500 days</p>
+            </div>
+            <div className="flex py-2">
+              <p className="w-20">GENERAL</p>
+              <p>: 2500 days</p>
+            </div>
+          </div>
         </div>
-      </div>
-      <DataModal
-        data={modalData}
-        setShowModal={onSetShowModal}
-        isShowModal={isShowModal}
-      />
+      </CollapseBody>
     </div>
   );
 }

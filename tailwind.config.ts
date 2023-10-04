@@ -1,5 +1,8 @@
 import type { Config } from 'tailwindcss'
+const colors = require('tailwindcss/colors')
 
+//Inactive = #636363
+//Active == #6ed562
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -8,11 +11,13 @@ const config: Config = {
   ],
   theme: {
     colors: {
-      'main': '#E11299',
-      'main-light': '#ffffff',
-      'main-dark': '#3f3cbb',
+      'main': '#6ed562',
+      'main-light': '#d7ffd2',
+      'main-dark': '#41a336',
       'white': '#ffffff',
+      'black': '#000000',
       'half-black': 'rgba(0, 0, 0, 0.5)',
+      'gray': colors.gray,
     },
   },
   plugins: [],
