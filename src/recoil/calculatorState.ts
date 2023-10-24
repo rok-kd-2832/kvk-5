@@ -87,3 +87,5 @@ export const resourceState = atom({
     },
   } as TResourceState,
 });
+
+// For Speedups calculator
